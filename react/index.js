@@ -50,9 +50,9 @@ const CategoryMenu = ({
     departmentsIds.includes(category.id)
   )
 
-  const visibleDepartments =
-    (departmentsSelected.length && departmentsSelected) || categories
-
+  let visibleDepartments = (departmentsSelected.length && departmentsSelected) || categories
+  visibleDepartments = visibleDepartments.sort((a, b) => a.name > b.name ? 1 : -1)  
+  
   if (mobileMode) {
     return (
       <div className={`${styles.sidebarContainer} ${styles.mobile}`}>
@@ -85,7 +85,7 @@ const CategoryMenu = ({
         menuPosition === categoryMenuPosition.DISPLAY_CENTER.value,
     }
   )
-
+  
   return (
     <nav className={desktopClasses}>
       <Container
@@ -94,22 +94,6 @@ const CategoryMenu = ({
         <ul
           className={`${styles.departmentList} pa0 list ma0 flex flex-wrap flex-row t-action overflow-hidden h3`}
         >
-          {showAllDepartments && (
-            <CategoryItem
-              noRedirect
-              menuPosition={menuPosition}
-              subcategoryLevels={
-                DEFAULT_SUBCATEGORIES_LEVELS + showSubcategories
-              }
-              sortSubcategories={sortSubcategories}
-              category={{
-                children: categories,
-                name: intl.formatMessage({
-                  id: 'store/category-menu.departments.title',
-                }),
-              }}
-            />
-          )}
           {visibleDepartments.map(category => (
             <Fragment key={category.id}>
               <CategoryItem
